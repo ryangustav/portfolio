@@ -37,9 +37,9 @@
         "title": "Sergipanidade Mobile",
         "description": "Aplicativo mobile desenvolvido em React Native (Expo) durante Residência de Software na UNIT, focado em cultura regional e experiência do usuário."
       },
-      "medusa": {
-        "title": "Medusa API",
-        "description": "API de E-commerce headless desenvolvida com Node.js e Medusa.js. Focada em performance, modularidade e experiência do desenvolvedor."
+      "chatbot": {
+        "title": "Chatbot Terminal",
+        "description": "Chatbot simples desenvolvido em JavaScript para rodar diretamente no terminal, focado em testes de lógica de programação e interação via linha de comando."
       },
       "other_projects": {
         "title": "Outros Projetos",

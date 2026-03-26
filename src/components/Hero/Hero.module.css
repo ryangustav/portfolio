@@ -35,9 +35,11 @@
 }
 
 .title {
-  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-size: clamp(2rem, 8vw, 4.5rem);
   line-height: 1.1;
   margin-bottom: 1.5rem;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .subtitle {
@@ -45,11 +47,19 @@
   color: hsl(var(--text-secondary));
   max-width: 600px;
   margin-bottom: 2.5rem;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 @media (max-width: 968px) {
   .subtitle {
     margin: 0 auto 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.8rem;
   }
 }
 

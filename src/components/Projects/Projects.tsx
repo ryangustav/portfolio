@@ -42,9 +42,9 @@ export default function Projects() {
       tags: ['React Native', 'Expo', 'TypeScript']
     },
     {
-      id: 'medusa',
-      github: 'https://github.com/ryangustav/medusa-api',
-      tags: ['Node.js', 'Medusa.js', 'TypeScript']
+      id: 'chatbot',
+      github: 'https://github.com/ryangustav/Chatbot-terminal',
+      tags: ['Node.js', 'JavaScript', 'Terminal']
     }
   ];
 
