@@ -6,9 +6,9 @@
   --accent-secondary: 280 80% 60%; /* Purple */
   --text-primary: 0 0% 100%;
   --text-secondary: 240 5% 70%;
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
   
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
@@ -101,5 +101,10 @@ h1, h2, h3, h4 {
   }
   .section-padding {
     padding: 4rem 0;
+  }
+  
+  .glass {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 }
