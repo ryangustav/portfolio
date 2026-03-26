@@ -26,6 +26,7 @@ const EXCLUDED_REPOS = [
   'OBS-AutoSegment',
   'lunna-backend',
   'sergipanidade-mobile',
+  'medusa-api',
   'portfolio', 
   'ryangustav' 
 ];

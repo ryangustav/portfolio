@@ -40,6 +40,11 @@ export default function Projects() {
       id: 'sergipe',
       github: 'https://github.com/ryangustav/sergipanidade-mobile',
       tags: ['React Native', 'Expo', 'TypeScript']
+    },
+    {
+      id: 'medusa',
+      github: 'https://github.com/ryangustav/medusa-api',
+      tags: ['Node.js', 'Medusa.js', 'TypeScript']
     }
   ];
 

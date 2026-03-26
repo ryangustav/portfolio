@@ -42,6 +42,7 @@
 
 .secondary {
   grid-column: span 1;
+  padding: 1.2rem;
 }
 
 .wide {
