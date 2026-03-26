@@ -1,0 +1,82 @@
+{
+  "Index": {
+    "title": "Ryan Gustavo",
+    "description": "Fullstack Developer & Ethical Hacker",
+    "hero": {
+      "title": "Ryan Gustavo",
+      "subtitle": "Hi, my name is Ryan Gustavo. I am a full-stack developer and ethical hacker passionate about software development.",
+      "cta": "Ready to deliver the best solutions"
+    },
+    "about": {
+      "title": "About me",
+      "subtitle": "Software Development and Ethical Hacking",
+      "text1": "Hi, my name is Ryan Gustavo and I'm currently a full-stack software developer in Aracaju, Sergipe.",
+      "text2": "Since I was a child, I've been passionate about programming and hacking. I started programming in Lua at 13, which sparked my love for this profession.",
+      "text3": "I also consider myself an ethical hacker, as I seek to help people by identifying critical flaws and vulnerabilities in their projects and applications.",
+      "text4": "Currently, I'm focused on specializing in backend development, but I also have frontend knowledge. I dedicate myself daily to learning new things."
+    },
+    "projects": {
+      "title": "Projects",
+      "protl": {
+        "title": "PRorTL-AI",
+        "description": "Translation and proofreading facilitator for long texts based on the Google Gemini API. Offers terminal and GUI execution."
+      },
+      "ubus": {
+        "title": "Ubus API",
+        "description": "Robust API with advanced infrastructure: Docker, Nginx, PostgreSQL, and secrets managed via HashiCorp Vault. Full CI/CD with GitHub Actions."
+      },
+      "obs": {
+        "title": "OBS AutoSegment",
+        "description": "Python automation tool for automatic segmentation of OBS Studio recordings, optimizing content creator workflows."
+      },
+      "lunna": {
+        "title": "Lunna Backend",
+        "description": "Discord bot backend based on Clean Architecture. Focused on scalability, maintainability, and solid design patterns."
+      },
+      "sergipe": {
+        "title": "Sergipanidade Mobile",
+        "description": "Mobile app developed in React Native (Expo) during a Software Residency at UNIT, focusing on regional culture and user experience."
+      },
+      "other_projects": {
+        "title": "Other Projects",
+        "subtitle": "Additional projects loaded directly from GitHub",
+        "button_show": "View other projects",
+        "button_hide": "View less",
+        "loading": "Loading projects from GitHub...",
+        "error": "Error loading projects from GitHub.",
+        "stars": "stars",
+        "forks": "forks"
+      }
+    },
+    "skills": {
+      "title": "Skills and Experience",
+      "frontend": "Frontend",
+      "backend": "Backend"
+    },
+    "contact": {
+      "title": "Contact",
+      "subtitle": "Want to get in touch with me?",
+      "email": "Email",
+      "copy": "Click to copy",
+      "form": {
+        "name": "Name",
+        "name_placeholder": "Your name",
+        "email": "Email",
+        "email_placeholder": "your@email.com",
+        "message": "Message",
+        "message_placeholder": "How can I help you?",
+        "send": "Send Message",
+        "sending": "Sending...",
+        "success": "Message sent successfully!",
+        "error": "An error occurred. Please try again."
+      }
+    },
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "projects": "Projects",
+      "experience": "Experience",
+      "contact": "Contact"
+    }
+  }
+}

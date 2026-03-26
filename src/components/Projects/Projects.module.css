@@ -1,0 +1,98 @@
+.projects {
+  background: radial-gradient(circle at 50% 50%, hsl(var(--bg-secondary) / 0.5), transparent);
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: hsl(var(--accent-primary) / 0.5);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.projectIcon {
+  color: hsl(var(--accent-primary));
+}
+
+.links {
+  display: flex;
+  gap: 1rem;
+  color: hsl(var(--text-secondary));
+}
+
+.links a:hover {
+  color: hsl(var(--text-primary));
+}
+
+.projectTitle {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.projectDescription {
+  color: hsl(var(--text-secondary));
+  font-size: 0.95rem;
+  flex-grow: 1;
+  margin-bottom: 1.5rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: hsl(var(--text-secondary));
+  border: 1px solid var(--glass-border);
+}
+
+.toggleContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+}
+
+.toggleBtn {
+  padding: 0.8rem 2rem;
+  color: #ebedfc;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 1px solid var(--glass-border);
+}
+
+.toggleBtn:hover {
+  border-color: hsl(var(--accent-primary));
+  color: hsl(var(--accent-primary));
+  background: hsl(var(--accent-primary) / 0.1);
+  transform: scale(1.05);
+}

@@ -1,0 +1,82 @@
+{
+  "Index": {
+    "title": "Ryan Gustavo",
+    "description": "Desarrollador Fullstack y Hacker Ético",
+    "hero": {
+      "title": "Ryan Gustavo",
+      "subtitle": "Hola, mi nombre es Ryan Gustavo. Soy un desarrollador full-stack y hacker ético apasionado por el desarrollo de software.",
+      "cta": "Listo para entregar las mejores soluciones"
+    },
+    "about": {
+      "title": "Sobre mí",
+      "subtitle": "Desarrollo de software y hacking ético",
+      "text1": "Hola, me llamo Ryan Gustavo y actualmente soy desarrollador de software full-stack en Aracaju, Sergipe.",
+      "text2": "Desde niño me apasiona la programación y el hacking. Comencé a programar en Lua a los 13 años, lo que despertó mi amor por esta profesión.",
+      "text3": "También me considero un hacker ético, ya que busco ayudar a las personas identificando fallas y vulnerabilidades críticas en sus proyectos y aplicaciones.",
+      "text4": "Actualmente, estoy enfocado en especializarme en el desarrollo backend, pero también tengo conocimientos de frontend. Me dedico diariamente a aprender cosas nuevas."
+    },
+    "projects": {
+      "title": "Proyectos",
+      "protl": {
+        "title": "PRorTL-AI",
+        "description": "Facilitador de traducción y revisión de textos largos basado en la API de Google Gemini. Ofrece ejecución vía terminal e interfaz gráfica."
+      },
+      "ubus": {
+        "title": "Ubus API",
+        "description": "API robusta con infraestructura avanzada: Docker, Nginx, PostgreSQL y secretos gestionados a través de HashiCorp Vault. CI/CD completo con GitHub Actions."
+      },
+      "obs": {
+        "title": "OBS AutoSegment",
+        "description": "Herramienta de automatización en Python para la segmentación automática de grabaciones de OBS Studio, optimizando el flujo de los creadores de contenido."
+      },
+      "lunna": {
+        "title": "Lunna Backend",
+        "description": "Backend de bot para Discord basado en Clean Architecture. Enfocado en escalabilidad, mantenibilidad y patrones de diseño sólidos."
+      },
+      "sergipe": {
+        "title": "Sergipanidade Mobile",
+        "description": "Aplicación móvil desarrollada en React Native (Expo) durante la Residencia de Software en UNIT, centrada en la cultura regional y la experiencia del usuario."
+      },
+      "other_projects": {
+        "title": "Otros Proyectos",
+        "subtitle": "Proyectos adicionales cargados directamente desde GitHub",
+        "button_show": "Ver otros proyectos",
+        "button_hide": "Ver menos",
+        "loading": "Cargando proyectos de GitHub...",
+        "error": "Error al cargar proyectos de GitHub.",
+        "stars": "estrellas",
+        "forks": "forks"
+      }
+    },
+    "skills": {
+      "title": "Habilidades y Experiencia",
+      "frontend": "Frontend",
+      "backend": "Backend"
+    },
+    "contact": {
+      "title": "Contacto",
+      "subtitle": "¿Quieres ponerte en contacto conmigo?",
+      "email": "Correo electrónico",
+      "copy": "Haz clic para copiar",
+      "form": {
+        "name": "Nombre",
+        "name_placeholder": "Tu nombre",
+        "email": "Correo electrónico",
+        "email_placeholder": "tu@email.com",
+        "message": "Mensaje",
+        "message_placeholder": "¿Cómo puedo ayudarte?",
+        "send": "Enviar Mensaje",
+        "sending": "Enviando...",
+        "success": "¡Mensaje enviado con éxito!",
+        "error": "Ocurrió un error. Inténtalo de nuevo."
+      }
+    },
+    "nav": {
+      "home": "Inicio",
+      "about": "Sobre mí",
+      "projects": "Proyectos",
+      "experience": "Experiencia",
+      "contact": "Contacto"
+    }
+  }
+}
