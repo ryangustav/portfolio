@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import styles from './Hero.module.css';
 import { clsx } from 'clsx';
 import { Code2, ShieldCheck, Terminal } from 'lucide-react';
+import ScrambleText from './ScrambleText';
 
 export default function Hero() {
   const t = useTranslations('Index.hero');
@@ -26,7 +27,7 @@ export default function Hero() {
           
           <h1 className={styles.title}>
             {t('title')} <br />
-            <span className="gradient-text">Fullstack Engineer</span>
+            <ScrambleText text="Fullstack Engineer" className="gradient-text" delay={800} />
           </h1>
           
           <p className={styles.subtitle}>
