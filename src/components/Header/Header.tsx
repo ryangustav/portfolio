@@ -3,16 +3,35 @@
 import { useTranslations, useLocale } from 'next-intl';
 import { Link, usePathname, useRouter } from '@/i18n/routing';
 import styles from './Header.module.css';
-import { Globe, Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { Globe, Menu, X, ChevronDown } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { clsx } from 'clsx';
 
 export default function Header() {
   const t = useTranslations('Index.nav');
   const locale = useLocale();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLangOpen, setIsLangOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsLangOpen(false);
+      }
+    };
+
+    if (isLangOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isLangOpen]);
 
   const locales = [
     { id: 'pt', label: 'PT' },
@@ -49,17 +68,41 @@ export default function Header() {
         </ul>
 
         <div className={styles.actions}>
-          <div className={styles.languageSwitcher}>
-            <Globe size={18} />
-            <select 
-              onChange={(e) => handleLanguageChange(e.target.value)}
-              className={styles.select}
-              value={locale}
+          <div className={styles.languageSwitcher} ref={dropdownRef}>
+            <button 
+              className={styles.langBtn}
+              onClick={() => setIsLangOpen(!isLangOpen)}
+              aria-label="Select Language"
             >
-              {locales.map((loc) => (
-                <option key={loc.id} value={loc.id}>{loc.label}</option>
-              ))}
-            </select>
+              <Globe size={18} />
+              <span>{locales.find(l => l.id === locale)?.label}</span>
+              <ChevronDown size={14} className={clsx(styles.chevron, isLangOpen && styles.chevronOpen)} />
+            </button>
+
+            <AnimatePresence>
+              {isLangOpen && (
+                <motion.ul 
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  className={clsx(styles.langDropdown, 'glass')}
+                >
+                  {locales.map((loc) => (
+                    <li key={loc.id}>
+                      <button 
+                        onClick={() => {
+                          handleLanguageChange(loc.id);
+                          setIsLangOpen(false);
+                        }}
+                        className={clsx(styles.langOption, locale === loc.id && styles.activeLang)}
+                      >
+                        {loc.label}
+                      </button>
+                    </li>
+                  ))}
+                </motion.ul>
+              )}
+            </AnimatePresence>
           </div>
 
           <button 

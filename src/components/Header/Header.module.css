@@ -54,25 +54,75 @@
 }
 
 .languageSwitcher {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: hsl(var(--text-secondary));
 }
 
-.select {
+.langBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   background: transparent;
   border: none;
-  color: inherit;
+  color: hsl(var(--text-primary));
   font-weight: 600;
   cursor: pointer;
-  outline: none;
-  font-family: inherit;
+  padding: 0.4rem 0.6rem;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
 }
 
-.select option {
-  background: hsl(var(--bg-secondary));
+.langBtn:hover {
+  background: hsl(var(--text-primary) / 0.08);
+}
+
+.chevron {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.5;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.langDropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 110px;
+  list-style: none;
+  padding: 0.4rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  border-radius: 16px;
+}
+
+.langOption {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  color: hsl(var(--text-secondary));
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+}
+
+.langOption:hover {
+  background: hsl(var(--text-primary) / 0.08);
   color: hsl(var(--text-primary));
+}
+
+.activeLang {
+  color: hsl(var(--accent-primary));
+  background: hsl(var(--accent-primary) / 0.1);
 }
 
 .mobileMenuBtn {
