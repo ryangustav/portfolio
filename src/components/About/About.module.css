@@ -43,6 +43,10 @@
 .secondary {
   grid-column: span 1;
   padding: 1.2rem;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.8rem;
 }
 
 .wide {
