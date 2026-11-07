@@ -1,0 +1,53 @@
+---
+title: "Article template: how to write a write-up"
+description: "A reference article showing every formatting feature available. Drafts only show up in development."
+date: "2026-11-07"
+tags: ["Template", "AppSec"]
+draft: true
+---
+
+This is a **template**. Copy this file, rename it (the filename becomes the URL slug,
+e.g. `my-first-writeup.mdx` → `/en/articles/my-first-writeup`), change the frontmatter,
+and remove `draft: true` when it's ready to publish.
+
+## Headings, lists and quotes
+
+Use `##` for sections and `###` for subsections.
+
+- Recon
+- Exploitation
+- Privilege escalation
+
+> **Defensive takeaway:** close every write-up with how to detect or prevent the issue.
+
+## Code blocks
+
+Code fences get syntax highlighting. Add a title and highlight lines with `{n}`:
+
+```ts title="middleware.ts" {3-4}
+export function middleware(req: NextRequest) {
+  const res = NextResponse.next();
+  res.headers.set('X-Frame-Options', 'DENY');
+  res.headers.set('X-Content-Type-Options', 'nosniff');
+  return res;
+}
+```
+
+```bash
+nmap -sC -sV -oA scans/initial 10.10.10.10
+```
+
+## Tables
+
+| Port | Service | Version       |
+| ---- | ------- | ------------- |
+| 22   | ssh     | OpenSSH 8.9p1 |
+| 80   | http    | nginx 1.18.0  |
+
+## Images
+
+Put images in `public/articles/<slug>/` and reference them like this:
+
+```md
+![Burp Suite intercepting the login request](/articles/my-first-writeup/burp.png)
+```

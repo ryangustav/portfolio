@@ -1,0 +1,129 @@
+/* Typography for rendered MDX content */
+
+.prose {
+  color: hsl(var(--text-primary) / 0.9);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  overflow-wrap: break-word;
+}
+
+.prose > * + * {
+  margin-top: 1.25rem;
+}
+
+.prose h2 {
+  font-size: 1.6rem;
+  margin-top: 3rem;
+  scroll-margin-top: 7rem;
+}
+
+.prose h3 {
+  font-size: 1.25rem;
+  margin-top: 2.25rem;
+  scroll-margin-top: 7rem;
+}
+
+.prose a {
+  color: hsl(var(--accent-primary));
+  text-underline-offset: 3px;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.5rem;
+}
+
+.prose li + li {
+  margin-top: 0.4rem;
+}
+
+.prose blockquote {
+  border-left: 3px solid hsl(var(--accent-primary));
+  padding: 0.5rem 1rem;
+  background: hsl(var(--accent-primary) / 0.06);
+  border-radius: 0 8px 8px 0;
+  color: hsl(var(--text-secondary));
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--glass-border);
+  margin: 2.5rem 0;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  display: block;
+  overflow-x: auto;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid var(--glass-border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.prose th {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Inline code */
+.prose :not(pre) > code {
+  font-family: ui-monospace, 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  font-size: 0.88em;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--glass-border);
+  padding: 0.1rem 0.35rem;
+  border-radius: 6px;
+}
+
+/* Code blocks (rehype-pretty-code) */
+.prose pre {
+  font-family: ui-monospace, 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  background: hsl(var(--bg-secondary));
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 1rem 0;
+  overflow-x: auto;
+}
+
+.prose pre code {
+  display: grid;
+}
+
+.prose pre [data-line] {
+  padding: 0 1.25rem;
+}
+
+.prose pre [data-highlighted-line] {
+  background: hsl(var(--accent-primary) / 0.12);
+  border-left: 2px solid hsl(var(--accent-primary));
+}
+
+.prose figcaption[data-rehype-pretty-code-title] {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.8rem;
+  color: hsl(var(--text-secondary));
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+  padding: 0.5rem 1.25rem;
+}
+
+.prose figcaption[data-rehype-pretty-code-title] + pre {
+  border-radius: 0 0 12px 12px;
+  margin-top: 0;
+}

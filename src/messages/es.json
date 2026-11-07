@@ -80,7 +80,18 @@
       "about": "Sobre mí",
       "projects": "Proyectos",
       "experience": "Experiencia",
-      "contact": "Contacto"
+      "contact": "Contacto",
+      "articles": "Artículos"
     }
+  },
+  "Articles": {
+    "title": "Artículos",
+    "subtitle": "Write-ups, investigaciones y notas técnicas sobre desarrollo y seguridad.",
+    "languageNote": "Los artículos están escritos en inglés.",
+    "all": "Todos",
+    "filterLabel": "Filtrar por etiqueta",
+    "back": "Volver a artículos",
+    "empty": "Aún no hay artículos publicados.",
+    "minRead": "{minutes} min de lectura"
   }
 }

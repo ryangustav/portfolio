@@ -7,6 +7,8 @@ import { Globe, Menu, X, ChevronDown } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { clsx } from 'clsx';
+import Logo from '../Logo/Logo';
+import NextLink from 'next/link';
 
 export default function Header() {
   const t = useTranslations('Index.nav');
@@ -43,26 +45,28 @@ export default function Header() {
     router.replace(pathname, { locale: newLocale });
   };
 
+  // Absolute paths so the section anchors also work from other pages (e.g. /articles)
   const navLinks = [
-    { href: '#inicio', label: t('home') },
-    { href: '#sobremim', label: t('about') },
-    { href: '#projetos', label: t('projects') },
-    { href: '#skills', label: t('experience') },
-    { href: '#contato', label: t('contact') }
+    { href: `/${locale}#inicio`, label: t('home') },
+    { href: `/${locale}#sobremim`, label: t('about') },
+    { href: `/${locale}#projetos`, label: t('projects') },
+    { href: `/${locale}#skills`, label: t('experience') },
+    { href: `/${locale}/articles`, label: t('articles') },
+    { href: `/${locale}#contato`, label: t('contact') }
   ];
 
   return (
     <header className={clsx(styles.header, 'glass')}>
       <nav className={clsx(styles.nav, 'container')}>
         <Link href="/" className={styles.logo}>
-          <span className="gradient-text">RG</span>
+          <Logo height="2.5rem" />
         </Link>
 
         {/* Desktop Nav */}
         <ul className={styles.desktopNav}>
           {navLinks.map((link) => (
             <li key={link.href}>
-              <a href={link.href} className={styles.navLink}>{link.label}</a>
+              <NextLink href={link.href} className={styles.navLink}>{link.label}</NextLink>
             </li>
           ))}
         </ul>
@@ -119,13 +123,13 @@ export default function Header() {
             <ul>
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <a 
-                    href={link.href} 
+                  <NextLink
+                    href={link.href}
                     className={styles.navLink}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {link.label}
-                  </a>
+                  </NextLink>
                 </li>
               ))}
             </ul>

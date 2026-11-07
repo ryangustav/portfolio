@@ -1,0 +1,129 @@
+---
+title: "STJCPE: a fake Brazilian court app that drops a second APK"
+description: "Analysis of STJCPE, an Android dropper spread over WhatsApp that poses as Brazil's Superior Court of Justice, repackages AutoJS6 and installs br.alpha.bridge."
+date: "2026-11-07"
+tags: ["malware analysis", "android", "reverse engineering", "threat intel"]
+draft: false
+---
+
+Around midnight on November 7 a friend messaged me about her sister. Something felt off about a "lawyer" she'd been talking to, and by 1 AM I had the APK he sent her open in an emulator.
+
+This is what I found, and also what I didn't manage to find.
+
+## The scam
+
+Two people matter here: my friend's sister, who is the one who got targeted, and a friend of hers who has an ongoing lawsuit.
+
+A man claiming to be a lawyer told the friend that a large payout from her lawsuit was about to come through. The catch: if all of it landed in her account, she would lose her Bolsa Família, Brazil's main welfare benefit. So someone else would need to receive part of the money. The sister offered to help.
+
+The "lawyer" then got the sister on a video call and asked her to share her screen. He walked her through steps inside her Caixa banking app and told her the account "can't receive more than 5k", which isn't true, she had received more than that before. Then he sent her an APK called STJCPE, with the logo of the STJ (Superior Tribunal de Justiça) on it.
+
+At some point the sister asked her friend for a photo of the lawyer. The picture was AI generated.
+
+The sister uninstalled the app, got off the call and called the bank. I told her to treat the phone as compromised and reset it, and the analysis of the APK showed why that was the right call.
+
+## Setup
+
+I didn't want this thing talking to anyone, so:
+
+- Android emulator, google_apis image, userdebug with root, no Google account
+- egress blocked by firewall rules on the Windows host
+- mitmproxy in front of the emulator, logging every request and answering 502
+- snapshots before every run
+- JADX for static analysis, Frida for instrumentation (with mixed results, more on that below)
+
+## Two stages
+
+| | Stage 1 (received file) | Stage 2 (installed by stage 1) |
+|---|---|---|
+| Visible name | STJCPE 5.1.3 | STJCPE 5.1.3 |
+| File | STJCPE.apk, 7,365,508 bytes | base.apk, 6,237,192 bytes |
+| Package | `org.autojs.autojs6` | `br.alpha.bridge` |
+| SHA-256 | `07781a65a4542ce90cf30d40a0340ec515f6b50a44452564e69e45e8eb4276e7` | `58c97440bdf1967710c5738a62dcf0cf5197ae2b94dbda7347acbc82bbe4c5fc` |
+
+### Stage 1
+
+Stage 1 is AutoJS6, an open source automation tool for Android, repackaged with a protection shell on top. The entry point is a custom `ProxyApplication` class. Native libraries sit in `assets/vwwwwwvwww/` for ARM, ARM64 and x86_64, and the real code is loaded with `InMemoryDexClassLoader`, so it only exists in memory once the app runs.
+
+The interesting asset is `assets/autojs.dat`, 5.09 MB of XZ that decompresses into a 6.24 MB zip. That zip is stage 2, byte for byte the same as what later gets installed.
+
+Permissions worth noting: `REQUEST_INSTALL_PACKAGES`, `BIND_VPN_SERVICE`, `EXPAND_STATUS_BAR`, `FOREGROUND_SERVICE_CONNECTED_DEVICE`, plus a few odd ones like `TRANSMIT_IR` and `BLUETOOTH`. It also registers a deep link, `devappsq5://open`. UI strings are in Portuguese.
+
+### Stage 2
+
+`br.alpha.bridge` asks for a lot more:
+
+- `BIND_ACCESSIBILITY_SERVICE`
+- `BIND_VPN_SERVICE`
+- `FOREGROUND_SERVICE_MEDIA_PROJECTION` (screen capture)
+- `MANAGE_EXTERNAL_STORAGE`, `CAMERA`
+- `RECEIVE_BOOT_COMPLETED`, `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`, `WAKE_LOCK`
+- `DUMP`, `BIND_DREAM_SERVICE`, `SET_ALARM`
+- a custom one, `br.alpha.bridge.permission.TDOS_DIAGNOSE_BROADCAST`
+
+In the DEX there are classes like `SecretCodeReceiver` and `SplashActivityndaa`, calls to `Cipher`, `SecretKeySpec`, `Base64` and `Inflater`, and two long base64 strings that could be key material.
+
+The assets (`t.conf`, `up_require.html`, `uns.html`, `cht.html`, `launcher.html`, `1.bt`, `2.bt`, `3.bt`, `OoooooOooo`) are encrypted, with entropy between 5.9 and 7.3. I didn't find a single URL, domain or IP in plaintext, not in the DEX, the assets or the native libs. The smaller HTML files all start with the same 27 bytes, which smells like a shared keystream, but I couldn't recover it.
+
+## What it did in the emulator
+
+1. Opening stage 1 triggered a VPN request ("wants to set up a VPN connection that allows it to monitor network traffic"). I accepted it for this run.
+2. It then showed "Install this app? STJCPE", asking to install itself. The first time I cancelled and the app closed.
+3. On a clean AVD, stage 2 got installed with no visible prompt. The package record shows `installerPackageName=org.autojs.autojs6`.
+4. The VPN changed hands. Logcat: `Switched from org.autojs.autojs6 to br.alpha.bridge`. From then on all app traffic went through `tun0`.
+5. Stage 2 opened the Accessibility settings with a Portuguese message, roughly "this app needs access permission to work, please allow it to continue". I never granted it.
+6. In one run the stage 2 UI showed garbled text, which fits encrypted content being displayed without decryption.
+7. Stage 1 relaunched itself after being closed. Force stop didn't stop it.
+
+The proxy logged 96 requests, almost all Android and Google services (`accounts.google.com`, `connectivitycheck.gstatic.com`, `play.googleapis.com` and friends). None of them could be tied to either stage. That doesn't mean there was no C2 traffic, the proxy only sees what goes through the proxy, and stage 2 owned a VPN.
+
+### Frida
+
+Spawning Settings with Frida worked fine. Spawning stage 1 failed with "unable to find a front-door activity", and attaching to the running process was hit or miss. When I hooked `Cipher`, `SecretKeySpec` and `Inflater` in stage 2, the process died with SIGSEGV every time and got restarted by the system. I can't say whether that was the packer, Frida or something else. No hook output made it out.
+
+## What VirusTotal says
+
+Stage 1 is at 12/68 and stage 2 at 11/68. The labels include `Dropper/Android.Agent`, `Trojan/Android.SpyAgent`, `Android.Riskware.SpyNote`, `HEUR:Trojan-Spy.AndroidOS.Btmob.c` and `Dropper.Banker/Android`. Acronis (Static ML) didn't flag either one.
+
+These are heuristics from different vendors. Together they point to a dropper with spyware and banking trojan traits, which matches what I saw, but they don't pin down a family.
+
+## What I couldn't confirm
+
+- the C2 server
+- the decrypted config or the key
+- any actual data exfiltration, screenshots or credential theft
+- whether the screen capture permission is really used
+- which malware family this belongs to
+
+What is confirmed: the file structure, the permissions, stage 1 installing stage 2, the VPN takeover, the accessibility prompt and the auto restart.
+
+I'd rather leave these as open questions than guess.
+
+## If someone you know installed it
+
+- put the phone in airplane mode and turn Wi-Fi off too, on Android it can stay on in airplane mode
+- call the bank from another phone, using the number on the back of the card
+- change passwords for the bank, email and WhatsApp from another device, with 2FA
+- check Accessibility and device admin apps for anything called STJCPE, AutoJS6 or similar
+- factory reset. Uninstalling one "STJCPE" can leave the other one behind
+- file a police report (boletim de ocorrência)
+
+And for anyone in the situation that started all of this: a real lawyer doesn't need to see your banking app, and no court sends apps over WhatsApp.
+
+## Indicators
+
+| Type | Value |
+|---|---|
+| SHA-256, stage 1 | `07781a65a4542ce90cf30d40a0340ec515f6b50a44452564e69e45e8eb4276e7` |
+| MD5, stage 1 | `9d76a44e9d63d05ab71428e285d44534` |
+| SHA-256, stage 2 | `58c97440bdf1967710c5738a62dcf0cf5197ae2b94dbda7347acbc82bbe4c5fc` |
+| Packages | `org.autojs.autojs6` (repackaged), `br.alpha.bridge` |
+| Deep link | `devappsq5://` |
+| Custom permission | `br.alpha.bridge.permission.TDOS_DIAGNOSE_BROADCAST` |
+| Assets | `autojs.dat`, `t.conf`, `up_require.html`, `uns.html`, `cht.html`, `vwwwwwvwww/` |
+
+VirusTotal: [stage 1](https://www.virustotal.com/gui/file/07781a65a4542ce90cf30d40a0340ec515f6b50a44452564e69e45e8eb4276e7), [stage 2](https://www.virustotal.com/gui/file/58c97440bdf1967710c5738a62dcf0cf5197ae2b94dbda7347acbc82bbe4c5fc)
+
+Reported to CERT.br. I'm not sharing the samples outside VirusTotal.
+
+If you've seen `br.alpha.bridge` or that TDOS permission before, I'd like to hear about it.
