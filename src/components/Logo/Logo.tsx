@@ -6,31 +6,53 @@ interface LogoProps {
   height?: number | string;
 }
 
+// Outlined "RG" monogram. Each letter is drawn as a thick centerline (white in the mask)
+// with a thinner centerline cut out of it (black), which leaves only the contour.
+// Overlapping letters merge their contours. Bottom ends are closed by clipping the
+// inner cut 14px above the outer edge.
+const R_BODY = 'M300,690 V396 H400 C455,396 485,425 485,460 C485,497 455,522 400,522 H300';
+const R_LEG = 'M392,522 L497,690';
+const G_OUTER = 'M700,433 A108,120 0 1 0 686.4,601.9 C706,583 725,565 725,545 V515 H640';
+const G_INNER = 'M690.7,422.2 A108,120 0 1 0 686.4,601.9 C706,583 725,565 725,545 V515 H654';
+
 export default function Logo({ className, width = 'auto', height = '2rem' }: LogoProps) {
   return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      viewBox="0 0 400 300" 
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="268 360 490 302"
       className={className}
       width={width}
       height={height}
-      aria-hidden="true"
+      role="img"
+      aria-label="Ryan Gustavo"
     >
       <defs>
-        <linearGradient id="gradModernSohRG" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#0e4399', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#701199', stopOpacity: 1 }} />
+        <linearGradient id="rgLogoGradient" gradientUnits="userSpaceOnUse" x1="275" y1="370" x2="750" y2="655">
+          <stop offset="0" stopColor="#12a2ff" />
+          <stop offset="0.5" stopColor="#6a5cf0" />
+          <stop offset="1" stopColor="#9b27e0" />
         </linearGradient>
-        <mask id="logoMask">
-          <rect width="400" height="300" fill="white" />
-          <path d="M80,180 L320,100 L320,120 L80,200 Z" fill="black" />
+        <clipPath id="rgLogoClipOuter">
+          <rect x="0" y="0" width="1000" height="655" />
+        </clipPath>
+        <clipPath id="rgLogoClipInner">
+          <rect x="0" y="0" width="1000" height="641" />
+        </clipPath>
+        <mask id="rgLogoMask" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="1000">
+          <g fill="none" stroke="#fff" strokeWidth="50" clipPath="url(#rgLogoClipOuter)">
+            <path d={R_BODY} />
+            <path d={R_LEG} />
+            <path d={G_OUTER} />
+          </g>
+          <g fill="none" stroke="#000" strokeWidth="22" clipPath="url(#rgLogoClipInner)">
+            <path d={R_BODY} />
+            <path d={R_LEG} />
+            <path d={G_INNER} />
+          </g>
         </mask>
       </defs>
-      
-      <g mask="url(#logoMask)" fill="url(#gradModernSohRG)" transform="translate(10, 20) scale(1.1)">
-        <path d="M90,80 h70 c30,0 45,15 45,35 c0,15 -10,25 -20,30 L215,200 h-35 L150,150 H120 V200 H90 V80 Z M120,105 v25 h35 c10,0 15,-5 15,-12 c0,-8 -5,-13 -15,-13 H120 Z" />
-        <path d="M230,80 h70 v25 h-65 c-10,0 -15,5 -15,15 v40 c0,10 5,15 15,15 h40 v-25 H255 v-20 h45 v65 H230 c-30,0 -45,-15 -45,-35 v-40 c0,-20 15,-35 45,-35 Z" />
-      </g>
+
+      <rect x="268" y="360" width="490" height="302" fill="url(#rgLogoGradient)" mask="url(#rgLogoMask)" />
     </svg>
   );
 }
