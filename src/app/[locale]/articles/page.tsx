@@ -13,9 +13,10 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function ArticlesPage() {
+export default async function ArticlesPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const t = await getTranslations('Articles');
-  const articles = await getAllArticles();
+  const articles = await getAllArticles(locale);
 
   return (
     <main>
@@ -25,7 +26,6 @@ export default async function ArticlesPage() {
           <header className={styles.header}>
             <h1 className={`${styles.title} gradient-text`}>{t('title')}</h1>
             <p className={styles.subtitle}>{t('subtitle')}</p>
-            <p className={styles.note}>{t('languageNote')}</p>
           </header>
           <ArticleList articles={articles} />
         </div>

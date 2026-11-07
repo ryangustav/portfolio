@@ -23,6 +23,7 @@ export type ArticleFrontmatter = {
 export type ArticleMeta = ArticleFrontmatter & {
   slug: string;
   readingTime: number;
+  lang: string; // language the content is actually written in
 };
 
 export type Article = ArticleMeta & {
@@ -66,30 +67,46 @@ async function compile(slug: string, source: string) {
       tags: frontmatter.tags ?? [],
       slug,
       readingTime: readingTimeOf(source),
-    } satisfies ArticleMeta,
+    } satisfies Omit<ArticleMeta, 'lang'>,
   };
 }
 
-async function readSource(slug: string): Promise<string | null> {
-  if (!SLUG_PATTERN.test(slug)) return null;
+// Original articles are written in English: <slug>.mdx
+// Translations live next to them: <slug>.<locale>.mdx (e.g. <slug>.pt.mdx)
+const BASE_LANG = 'en';
+const LOCALE_PATTERN = /^[a-z]{2}$/;
+
+async function readFile(name: string): Promise<string | null> {
   try {
-    return await fs.readFile(path.join(ARTICLES_DIR, `${slug}.mdx`), 'utf8');
+    return await fs.readFile(path.join(ARTICLES_DIR, name), 'utf8');
   } catch {
     return null;
   }
 }
 
-export const getArticle = cache(async (slug: string): Promise<Article | null> => {
-  const source = await readSource(slug);
-  if (!source) return null;
+async function readSource(slug: string, locale: string): Promise<{ source: string; lang: string } | null> {
+  if (!SLUG_PATTERN.test(slug)) return null;
 
-  const { content, meta } = await compile(slug, source);
+  if (locale !== BASE_LANG && LOCALE_PATTERN.test(locale)) {
+    const translated = await readFile(`${slug}.${locale}.mdx`);
+    if (translated) return { source: translated, lang: locale };
+  }
+
+  const original = await readFile(`${slug}.mdx`);
+  return original ? { source: original, lang: BASE_LANG } : null;
+}
+
+export const getArticle = cache(async (slug: string, locale: string): Promise<Article | null> => {
+  const file = await readSource(slug, locale);
+  if (!file) return null;
+
+  const { content, meta } = await compile(slug, file.source);
   if (meta.draft && !SHOW_DRAFTS) return null;
 
-  return { ...meta, content };
+  return { ...meta, lang: file.lang, content };
 });
 
-export const getAllArticles = cache(async (): Promise<ArticleMeta[]> => {
+export const getAllArticles = cache(async (locale: string): Promise<ArticleMeta[]> => {
   let files: string[];
   try {
     files = await fs.readdir(ARTICLES_DIR);
@@ -97,17 +114,18 @@ export const getAllArticles = cache(async (): Promise<ArticleMeta[]> => {
     return [];
   }
 
+  // Only the original files define which articles exist; translations are picked per locale.
   const slugs = files
     .filter((f) => f.endsWith('.mdx'))
     .map((f) => f.slice(0, -'.mdx'.length))
     .filter((slug) => SLUG_PATTERN.test(slug));
 
-  const articles = await Promise.all(slugs.map((slug) => getArticle(slug)));
+  const articles = await Promise.all(slugs.map((slug) => getArticle(slug, locale)));
 
   return articles
     .filter((a): a is Article => a !== null)
-    .map(({ slug, title, description, date, tags, draft, readingTime }) => ({
-      slug, title, description, date, tags, draft, readingTime,
+    .map(({ slug, title, description, date, tags, draft, readingTime, lang }) => ({
+      slug, title, description, date, tags, draft, readingTime, lang,
     }))
     .sort((a, b) => b.date.localeCompare(a.date));
 });

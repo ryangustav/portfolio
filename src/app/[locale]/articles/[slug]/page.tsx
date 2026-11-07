@@ -14,8 +14,8 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const article = await getArticle(slug);
+  const { locale, slug } = await params;
+  const article = await getArticle(slug, locale);
   if (!article) return {};
 
   return {
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ArticlePage({ params }: Props) {
   const { locale, slug } = await params;
-  const article = await getArticle(slug);
+  const article = await getArticle(slug, locale);
   if (!article) notFound();
 
   const t = await getTranslations('Articles');
@@ -42,7 +42,7 @@ export default async function ArticlePage({ params }: Props) {
     <main>
       <Header />
       <section className={styles.page}>
-        <article className={`${styles.article} container`} lang="en">
+        <article className={`${styles.article} container`} lang={article.lang}>
           <Link href="/articles" className={styles.back}>
             <ArrowLeft size={16} />
             {t('back')}
@@ -62,6 +62,10 @@ export default async function ArticlePage({ params }: Props) {
               ))}
             </div>
           </header>
+
+          {article.lang !== locale && (
+            <p className={styles.note}>{t('notTranslated')}</p>
+          )}
 
           <div className={prose.prose}>{article.content}</div>
         </article>

@@ -87,11 +87,11 @@
   "Articles": {
     "title": "Articles",
     "subtitle": "Write-ups, research and technical notes on software development and security.",
-    "languageNote": "Articles are written in English.",
     "all": "All",
     "filterLabel": "Filter by tag",
     "back": "Back to articles",
     "empty": "No articles published yet.",
-    "minRead": "{minutes} min read"
+    "minRead": "{minutes} min read",
+    "notTranslated": "This article is only available in its original language."
   }
 }
