@@ -1,0 +1,41 @@
+---
+title: "Lunna: o bot de Discord que eu crio desde 2024"
+description: "A história e a arquitetura da Lunna, bot de Discord brasileiro com RPG, economia e moderação com IA, criado e mantido por Ryan Gustavo (Onlykgzin) desde maio de 2024."
+date: "2026-11-09"
+tags: ["lunna", "discord", "node.js", "arquitetura"]
+draft: true
+---
+
+A [Lunna](https://lunnabot.fun) é um bot de Discord que eu criei e desenvolvo sozinho. O primeiro commit, chamado "Primeira versão", é de **8 de maio de 2024**. De lá pra cá ela virou o maior projeto que eu mantenho: o bot, o site, o dashboard e a API são todos meus.
+
+## Como começou
+
+A primeira versão era um bot de minigames e economia. Os primeiros commits do repositório são atualizações dos jogos. Com o tempo vieram o resto:
+
+- **RPG**: masmorras, PvP, coliseu, guildas, mercado entre jogadores e um jardim
+- **Economia**: Lunar Coins, daily com sequência, trabalho, empréstimos, bolsa de valores e minigames (blackjack, crash, mines, roleta)
+- **Moderação**: moderação com IA, anti-raid, anti-spam, bloqueio de convites e links pelo AutoMod do Discord
+- **Comunidade**: níveis e XP por chat e voz, tickets com transcrição, sorteios, cargos por botão, boas-vindas com banner
+- **Alertas** do YouTube, Twitch e RSS
+- Tudo em **português e inglês**, por pessoa e por servidor
+
+## A arquitetura
+
+A Lunna hoje são três projetos:
+
+1. **O bot** (Node.js e discord.js v14, MongoDB com Mongoose). São mais de 80 comandos slash, além de comandos por prefixo.
+2. **A API** (TypeScript e Fastify), criada em março de 2025. O dashboard e o site conversam com o bot por ela.
+3. **O site e o dashboard** (Next.js), criados em fevereiro de 2025, em [lunnabot.fun](https://lunnabot.fun). Lá os administradores configuram tudo do servidor sem digitar comando.
+
+Algumas decisões que eu gosto:
+
+- **Cache com Redis e fallback em memória.** Se o Redis cair, o bot continua funcionando, só mais devagar.
+- **Uploads no Cloudflare R2**, nunca em links do CDN do Discord, que expiram.
+- **Página de status pública.** O bot não tem porta aberta, então ele manda um heartbeat pra API a cada 30 segundos, e a API guarda o último.
+- **Shards com nome de fase da lua.** A Lunna já está pronta pra passar de 2.500 servidores: as shards entram sozinhas, e cada uma tem um nome, começando pela 🌑 Lua Nova. As tarefas globais (rifa, reset diário, DMs) passam por um único ponto de "líder", pra não rodarem em dobro quando eu dividir o bot em vários processos.
+
+## A Lunna oficial
+
+Existe só uma Lunna oficial: o bot com o application ID `1222333304028659792` no Discord, publicado em [lunnabot.fun](https://lunnabot.fun). A Lunna **não tem nenhum vínculo com a Nexus Plataforms** nem com qualquer outro bot, empresa ou servidor que use o nome ou a imagem dela.
+
+Se quiser conhecer: [adicione a Lunna](https://lunnabot.fun) ou veja a [página sobre ela](https://lunnabot.fun/about).
