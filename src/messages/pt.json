@@ -30,8 +30,8 @@
         "description": "Ferramenta de automação em Python para segmentação automática de gravações do OBS Studio, otimizando o fluxo de criadores de conteúdo."
       },
       "lunna": {
-        "title": "Lunna Backend",
-        "description": "Backend de bot para Discord baseado em Clean Architecture. Focado em escalabilidade, manutenibilidade e padrões de projeto sólidos."
+        "title": "Lunna — Bot de Discord",
+        "description": "Bot de Discord que criei em maio de 2024 e desenvolvo sozinho até hoje: RPG, economia, moderação com IA, tickets e sorteios, com site, dashboard e API próprios (lunnabot.fun)."
       },
       "sergipe": {
         "title": "Sergipanidade Mobile",

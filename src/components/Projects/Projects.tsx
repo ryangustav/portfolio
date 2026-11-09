@@ -16,6 +16,13 @@ export default function Projects() {
 
   const projects = [
     {
+      // Lunna: the Discord bot I created in May 2024 and still build alone (bot, site, dashboard, API)
+      id: 'lunna',
+      github: 'https://github.com/ryangustav/lunna-backend',
+      link: 'https://lunnabot.fun',
+      tags: ['Discord.js', 'TypeScript', 'Next.js', 'MongoDB', 'Redis']
+    },
+    {
       id: 'ubus',
       github: 'https://github.com/ryangustav/ubus-api',
       tags: ['PostgreSQL', 'Docker', 'Vault', 'CI/CD']
@@ -30,11 +37,6 @@ export default function Projects() {
       id: 'obs',
       github: 'https://github.com/ryangustav/OBS-AutoSegment',
       tags: ['Python', 'Automation', 'OBS Studio']
-    },
-    {
-      id: 'lunna',
-      github: 'https://github.com/ryangustav/lunna-backend',
-      tags: ['TypeScript', 'Clean Architecture', 'Discord.js']
     },
     {
       id: 'sergipe',
